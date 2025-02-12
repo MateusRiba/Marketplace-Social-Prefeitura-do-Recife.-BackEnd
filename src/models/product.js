@@ -1,41 +1,74 @@
 /************************************************************
  * ARQUIVO: src/models/Product.js
  * RESPONSABILIDADE: Definir o modelo (tabela) de Produto
- * TABELA: products (por padrão, Sequelize pluraliza)
  ************************************************************/
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-/**
- * Cria-se aqui um "model" chamado 'Product'.
- * O Sequelize vai criar a tabela 'products' no banco, com as colunas definidas.
- */
 
-const Product = sequelize.define('Product', { // SERÁ NECESSÁRIO DEFINIR ISSO!!!
-  // Cada chave do objeto define uma coluna da tabela
+// Colunas do Banco de Dados:
+
+const Product = sequelize.define('Product', {
   id: {
-    type: DataTypes.INTEGER,      // Tipo inteiro
-    autoIncrement: true,          // Auto-incremento para IDs
-    primaryKey: true              // Chave primária
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
   },
-  name: {
-    type: DataTypes.STRING,       // Coluna do tipo string
-    allowNull: false              // Não pode ser nulo (OBRIGATÓRIO)
-  },
-  price: {
-    type: DataTypes.DECIMAL(10, 2),  // Exemplo de preço com 2 casas decimais
+
+  // ProductName: Exemplo de nome do produto
+  productName: {
+    type: DataTypes.STRING,
     allowNull: false
   },
-  whatsappNumber: {
-    type: DataTypes.STRING,       // Ex.: "+55 81 99999-9999"
+
+  craftsmanName: {
+    type: DataTypes.STRING,
     allowNull: false,
-    field: 'whatsapp_number'      // Personaliza o nome da coluna se desejar
+
+  },
+
+  // Picture: URL ou caminho da imagem do produto
+  picture: {
+    type: DataTypes.STRING, //OBS: Não está decidido se será.blob ou as imagens vão ser guardadas como LINKS
+    allowNull: false
+  },
+
+  // WhatsaoooNumber (se for realmente esse o nome)
+  // mas provavelmente é WhatsAppNumber
+  whatsappNumber: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+
+  // LinkedONG: Exemplo de campo que indica ONG relacionada
+  linkedONG: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+
+  // Units: Quantidade disponível
+  units: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+
+  // Price: Preço unitário
+  price: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false
+  },
+
+  // Description: Descrição longa do produto
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true
   }
+
 }, {
   // Configurações extras
-  tableName: 'products',  // Nome da tabela no banco, caso queira forçar
-  timestamps: true         // Cria colunas createdAt e updatedAt automaticamente
+  tableName: 'products',  // Se quiser definir explicitamente o nome da tabela
+  timestamps: true        // Cria colunas "createdAt" e "updatedAt" automaticamente
 });
 
 module.exports = Product;

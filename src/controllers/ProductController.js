@@ -4,29 +4,47 @@
  ************************************************************/
 
 const Product = require('../models/product');
+const { Op } = require('sequelize');
 
 module.exports = {
   /**
    * Cria um novo produto no banco de dados
    * 
    * - O front-end envia um POST /products
-   * - O body da requisição contém: { name, price, whatsappNumber }
+   * - O body da requisição contém todos os campos abaixo
    */
   createProduct: async (req, res) => {
     try {
       // Extraindo dados do body da requisição
-      const { name, price, whatsappNumber } = req.body;
+      const { 
+        productName,
+        craftsmanName,
+        picture,
+        whatsappNumber,
+        linkedONG,
+        units,
+        price,
+        description
+      } = req.body;
 
-      // Validação simples: verificar se todos os campos vieram
-      if (!name || !price || !whatsappNumber) {
-        return res.status(400).json({ error: 'Campos obrigatórios ausentes.' });
+      // Aqui é a validação de campos obrigatorios, caso algum não seja, basta retirar um desse
+      if (!productName || !craftsmanName || !picture || !whatsappNumber 
+          || !linkedONG || !units || !price) {
+        return res.status(400).json({ 
+          error: 'Campos obrigatórios ausentes. Verifique e tente novamente.' 
+        });
       }
 
-      // Criar o produto no banco
+      // Criar o produto no banco usando o Model Product
       const newProduct = await Product.create({
-        name,
+        productName,
+        craftsmanName,
+        picture,
+        whatsappNumber,
+        linkedONG,
+        units,
         price,
-        whatsappNumber
+        description
       });
 
       return res.status(201).json(newProduct);
@@ -51,35 +69,32 @@ module.exports = {
   },
 
   /**
-   * Faz uma busca de produtos pelo nome (pesquisa)
-   * - O front-end faz GET /products/search?name=algo
-   * - Filtra produtos que contenham "algo" no campo name
+   * Faz uma busca de produtos pelo nome do produto (productName)
+   * - O front-end faz GET /products/search?productName=algo
+   * - Filtra produtos que contenham "algo" no campo productName
    */
   searchProducts: async (req, res) => {
     try {
-      const { name } = req.query; // /products/search?name=algo
-      if (!name) {
-        // Se não mandou query param, retornamos todos
+      const { productName } = req.query; // /products/search?productName=algo
+
+      // Se não mandou query param, retornamos todos
+      if (!productName) {
         const products = await Product.findAll();
         return res.json(products);
       }
 
-      // Opção 1 (básica): filtrar todos que tenham o nome
-      // contendo esse texto (LIKE)
-      const products = await Product.findAll({
-        where: {
-          // O operador [Op.like] vem do Sequelize (importar se usar)
-          // Exemplo:
-          // name: { [Op.like]: `%${name}%` }
+    
+    // Aqui é a filtragem feita pelo OP (importado no inicio)
+    const products = await Product.findAll({
+      where: {
+        productName: {
+          [Op.like]: `%${productName}%`
         }
-      });
-      // Como ainda não importamos Op, faremos algo simples:
-      // Buscando todos e filtrando em memória (não ideal pra produção, mas simples):
-      const filtered = products.filter((p) =>
-        p.name.toLowerCase().includes(name.toLowerCase())
-      );
+      }
+    });
+       
 
-      return res.json(filtered);
+      return res.json(products);
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }

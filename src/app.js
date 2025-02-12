@@ -12,7 +12,7 @@ require('./models/product');   // Carregando modelo de Produto
 require('./models/Favorite'); // Carregando modelo de Favorito 
 
 // Sincroniza com o banco (cria tabelas se não existirem)
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
   .then(() => {
     console.log('Tabelas sincronizadas com sucesso!');
   })
