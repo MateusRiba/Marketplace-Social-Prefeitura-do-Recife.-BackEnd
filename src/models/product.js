@@ -34,7 +34,7 @@ const Product = sequelize.define('Product', {
     allowNull: false
   },
 
-  // WhatsaoooNumber (se for realmente esse o nome)
+  // WhatsappNumber (se for realmente esse o nome)
   // mas provavelmente é WhatsAppNumber
   whatsappNumber: {
     type: DataTypes.STRING,

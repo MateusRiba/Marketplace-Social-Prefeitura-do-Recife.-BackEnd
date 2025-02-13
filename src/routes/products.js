@@ -34,7 +34,7 @@ router.get('/search', ProductController.searchProducts);
  * - Retorna a lista de favoritos de um usuário.
  * - Exemplo: /favorites?userId=1
  */
-router.get('/favorites', ProductController.getFavorites);
+//router.get('/favorites', ProductController.getFavorites);
 
 // Exportamos o router para ser usado no app.js
 module.exports = router;
