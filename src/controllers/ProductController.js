@@ -73,30 +73,27 @@ module.exports = {
    * - O front-end faz GET /products/search?productName=algo
    * - Filtra produtos que contenham "algo" no campo productName
    */
-  searchProducts: async (req, res) => {
-    try {
-      const { productName } = req.query; // /products/search?productName=algo
 
-      // Se não mandou query param, retornamos todos
-      if (!productName) {
-        const products = await Product.findAll();
-        return res.json(products);
-      }
+searchProductById: async (req, res) => {
+  try {
+    const { id } = req.params;
 
-    
-    // Aqui é a filtragem feita pelo OP (importado no inicio)
-    const products = await Product.findAll({
-      where: {
-        productName: {
-          [Op.like]: `%${productName}%`
-        }
-      }
-    });
-       
-
-      return res.json(products);
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
+    if (!id) {
+      return res.status(400).json({ error: 'O ID do produto é obrigatório.' });
     }
-  },
+
+    // Busca o produto pelo ID
+    const product = await Product.findByPk(id);
+
+
+    if (!product) {
+      return res.status(404).json({ message: 'Produto não encontrado.' });
+    }
+
+    return res.status(200).json(product);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+},
+
 };
