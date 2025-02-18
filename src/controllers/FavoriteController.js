@@ -32,5 +32,20 @@ getAllFavorites: async (req, res) => {
       console.error('Erro ao buscar favoritos:', error);
       return res.status(500).json({ error: error.message });
     }
-  }
+  },
+
+  getFavoriteById: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const favorite = await Favorite.findByPk(id);
+      if (!favorite) {
+        return res.status(404).json({ message: 'Favorito não encontrado.' });
+      }
+      return res.status(200).json(favorite);
+    } catch (error) {
+      console.error('Erro ao buscar favorito por ID:', error);
+      return res.status(500).json({ error: 'Erro interno do servidor.' });
+    }
+}
 }
