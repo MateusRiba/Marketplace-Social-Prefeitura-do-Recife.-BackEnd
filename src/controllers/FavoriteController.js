@@ -3,7 +3,6 @@ const { Op } = require('sequelize');
 
 module.exports = {
 
-
 createFavorite: async(req, res) =>{
     const {userIdentifier, productId} = req.body;
     try{
@@ -18,5 +17,20 @@ createFavorite: async(req, res) =>{
     catch(error){
         return res.status(500).json({error: error.message});
     }
-}
+},
+
+getAllFavorites: async (req, res) => {
+    try {
+      const favorites = await Favorite.findAll();
+
+      if (favorites.length === 0) {
+        return res.status(404).json({ message: 'Nenhum favorito encontrado.' });
+      }
+
+      return res.status(200).json(favorites);
+    } catch (error) {
+      console.error('Erro ao buscar favoritos:', error);
+      return res.status(500).json({ error: error.message });
+    }
+  }
 }
