@@ -23,11 +23,11 @@ router.post('/', ProductController.createProduct);
 router.get('/', ProductController.getAllProducts);
 
 /**
- * GET /products/search
- * - Faz pesquisa de produtos por nome.
+ * GET /products/id
+ * - Faz pesquisa de produtos por id
  * - O Front envia um parametro ?name= e recebe a lista filtrada.
  */
-router.get('/search', ProductController.searchProducts);
+router.get('/:id', ProductController.searchProductById);
 
 /**
  * GET /favorites
