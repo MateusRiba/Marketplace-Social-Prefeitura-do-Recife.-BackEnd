@@ -5,6 +5,7 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const Favorite = require('./Favorite');
 
 
 // Colunas do Banco de Dados:
@@ -70,5 +71,9 @@ const Product = sequelize.define('Product', {
   tableName: 'products',  // Se quiser definir explicitamente o nome da tabela
   timestamps: true        // Cria colunas "createdAt" e "updatedAt" automaticamente
 });
+
+//Relacionamentos
+Product.hasMany(Favorite, { foreignKey: 'productId' });
+Favorite.belongsTo(Product, { foreignKey: 'productId' });
 
 module.exports = Product;
