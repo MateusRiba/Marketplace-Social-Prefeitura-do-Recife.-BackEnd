@@ -30,11 +30,16 @@ router.get('/', ProductController.getAllProducts);
 router.get('/:id', ProductController.searchProductById);
 
 /**
- * GET /favorites
- * - Retorna a lista de favoritos de um usuário.
- * - Exemplo: /favorites?userId=1
+ * DELETE /products/:id
+ * Remove um produto pelo seu ID
  */
-//router.get('/favorites', ProductController.getFavorites);
+router.delete('/:id', ProductController.removeProduct);
 
-// Exportamos o router para ser usado no app.js
+
+// Atualização de produto(PUT /praducts/:id)
+////////////////////////////
+////////////////////////////
+router.put('/:id', ProductController.updateProduct);
+
+// Exporta o router para ser usado no app.js
 module.exports = router;

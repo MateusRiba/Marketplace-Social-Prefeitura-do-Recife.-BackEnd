@@ -50,5 +50,4 @@ getAllFavorites: async (req, res) => {
 }
 }
 
-}
 
