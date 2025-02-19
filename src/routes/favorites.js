@@ -11,4 +11,7 @@ router.post('/add', FavoriteController.createFavorite)
 
 router.get('/', FavoriteController.getAllFavorites);
 
+// Rota para buscar um favorito por ID
+router.get('/:id', FavoriteController.getFavoriteById);
+
 module.exports = router;
