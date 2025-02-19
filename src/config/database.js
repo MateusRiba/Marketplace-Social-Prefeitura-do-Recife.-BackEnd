@@ -19,9 +19,9 @@ console.log('DB_DIALECT:', process.env.DB_DIALECT);
  * - host: 'localhost' (pois estou rodando localmente)
  * - dialect: 'mysql' (pois estou usando o MySQL)
  */
-const sequelize = new Sequelize("marketplace_db", "root", "55851", { //Nome do banco, usuario e senha do .env
-  host: "localhost",
-  dialect: "mysql"
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, { //Nome do banco, usuario e senha do .env
+  host: process.env.DB_HOST,
+  dialect: process.env.DB_DIALECT
 });
 
 // Teste de conexão
