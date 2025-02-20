@@ -17,4 +17,7 @@ router.get('/:id', FavoriteController.getFavoriteById);
 // Rota para remover um favorito pelo ID
 router.delete('/:id', FavoriteController.deleteFavorite);
 
+// Rota para remover todos os favoritos
+router.delete('/', FavoriteController.deleteAllFavorites);
+
 module.exports = router;
