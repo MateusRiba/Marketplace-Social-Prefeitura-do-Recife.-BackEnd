@@ -62,7 +62,21 @@ deleteFavorite: async (req, res) => {
     console.error('Erro ao remover favorito:', error);
     return res.status(500).json({ error: error.message });
   }
-}
+},
+
+  // Função para remover todos os favoritos de uma vez
+  deleteAllFavorites: async (req, res) => {
+    try {
+      const count = await Favorite.destroy({ where: {} });
+      if (count === 0) {
+        return res.status(404).json({ message: 'Nenhum favorito encontrado para remover.' });
+      }
+      return res.status(200).json({ message: `${count} favorito(s) removido(s) com sucesso.` });
+    } catch (error) {
+      console.error('Erro ao remover todos os favoritos:', error);
+      return res.status(500).json({ error: error.message });
+    }
+  }
 }
 
 
