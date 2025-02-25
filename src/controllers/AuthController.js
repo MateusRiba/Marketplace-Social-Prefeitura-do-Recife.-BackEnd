@@ -51,4 +51,24 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { login };
+
+const TokenBlacklist = require("../models/TokenBlacklist");
+
+const logout = async (req, res) => {
+    try {
+        const token = req.headers.authorization?.split(" ")[1]; // Pega o token do header
+
+        if (!token) {
+            return res.status(400).json({ error: "Token não fornecido" });
+        }
+
+        // Salva o token na blacklist para impedir seu uso futuro
+        await TokenBlacklist.create({ token });
+
+        return res.status(200).json({ message: "Logout realizado com sucesso" });
+    } catch (error) {
+        return res.status(500).json({ error: "Erro ao fazer logout" });
+    }
+};
+
+module.exports = { login, logout };
