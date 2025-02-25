@@ -73,30 +73,85 @@ module.exports = {
    * - O front-end faz GET /products/search?productName=algo
    * - Filtra produtos que contenham "algo" no campo productName
    */
-  searchProducts: async (req, res) => {
-    try {
-      const { productName } = req.query; // /products/search?productName=algo
 
-      // Se não mandou query param, retornamos todos
-      if (!productName) {
-        const products = await Product.findAll();
-        return res.json(products);
-      }
+searchProductById: async (req, res) => {
+  try {
+    const { id } = req.params;
 
-    
-    // Aqui é a filtragem feita pelo OP (importado no inicio)
-    const products = await Product.findAll({
-      where: {
-        productName: {
-          [Op.like]: `%${productName}%`
-        }
-      }
-    });
-       
-
-      return res.json(products);
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
+    if (!id) {
+      return res.status(400).json({ error: 'O ID do produto é obrigatório.' });
     }
-  },
+
+    // Busca o produto pelo ID
+    const product = await Product.findByPk(id);
+
+
+    if (!product) {
+      return res.status(404).json({ message: 'Produto não encontrado.' });
+    }
+
+    return res.status(200).json(product);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+},
+
+/**
+ * Remove um produto pelo ID
+ * - O front-end faz DELETE /products/:id
+ * - É necessário passar o ID do produto na rota
+ */
+removeProduct: async (req, res) => {
+  try {
+    // Pega o ID da URL. Ex: /products/5 => req.params.id = "5"
+    const { id } = req.params;
+
+    // Verifica se o produto existe no banco
+    const product = await Product.findByPk(id);
+    if (!product) {
+      return res.status(404).json({ error: 'Produto não encontrado' });
+    }
+
+    // Deleta o registro
+    await product.destroy();
+
+    // Retorna uma mensagem de sucesso
+    return res.json({ message: 'Produto removido com sucesso' });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+},
+
+/**
+ * Atualiza um produto pelo ID
+ * - O front-end faz PUT /products/:id
+ * - O body da requisição contém os campos que devem ser atualizados
+ */
+updateProduct: async (req, res) => {
+  try {
+    // Pega o ID da URL (exemplo: /products/5)
+    const { id } = req.params;
+
+    // Verifica se o ID foi enviado
+    if (!id) {
+      return res.status(400).json({ error: 'O ID do produto é obrigatório.' });
+    }
+
+    // Busca o produto pelo ID
+    const product = await Product.findByPk(id);
+    if (!product) {
+      return res.status(404).json({ error: 'Produto não encontrado.' });
+    }
+
+    // Atualiza o produto com os campos enviados no corpo da requisição
+    // Aqui usamos o método update do Sequelize, que atualiza somente os campos enviados.
+    const updatedProduct = await product.update(req.body);
+
+    // Retorna o produto atualizado
+    return res.status(200).json(updatedProduct);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+},
+
 };

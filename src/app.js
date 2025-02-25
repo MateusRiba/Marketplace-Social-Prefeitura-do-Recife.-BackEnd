@@ -28,6 +28,11 @@ const productRoutes = require('./routes/products');
 // Todas as rotas definidas em productRoutes vão ter como prefixo "/products"
 app.use('/products', productRoutes);
 
+
+//Importa e usa as rotas de favoritos
+const favoriteRoutes = require('./routes/favorites');
+app.use('/favorites', favoriteRoutes);
+
 // Rota básica de teste
 app.get('/', (req, res) => {
   res.send('Servidor rodando!');
