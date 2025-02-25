@@ -41,6 +41,9 @@ app.get('/', (req, res) => {
 const authRoutes = require("./routes/auth");
 app.use("/auth", authRoutes);
 
+
+
+
 // iniciar o servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
