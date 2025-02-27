@@ -33,10 +33,10 @@ const Product = sequelize.define('Product', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  // Picture: URL ou caminho da imagem do produto
+  // Picture: .Blob long
   picture: {
-    type: DataTypes.STRING, //OBS: Não está decidido se será.blob ou as imagens vão ser guardadas como LINKS
-    allowNull: false
+    type: DataTypes.BLOB('long'), 
+    allowNull: true
   },
 
   // WhatsappNumber (se for realmente esse o nome)
@@ -52,10 +52,17 @@ const Product = sequelize.define('Product', {
     allowNull: false
   },
 
-  // Units: Quantidade disponível
-  units: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+  // Tamanho: Tamanho do produto
+  size: {
+    type: DataTypes.ENUM('P', 'M', 'G'),
+    allowNull:true
+  },
+
+  // Avalible (ex-Units): Quantidade disponível
+  avalible: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
   },
 
   // Price: Preço unitário

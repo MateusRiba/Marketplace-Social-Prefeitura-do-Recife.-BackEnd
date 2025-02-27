@@ -24,30 +24,37 @@ module.exports = {
         picture,
         whatsappNumber,
         linkedONG,
-        units,
+        avalible,
         price,
-        description
+        description,
+        size,
       } = req.body;
 
       // Aqui é a validação de campos obrigatorios, caso algum não seja, basta retirar um desse
       if (!productName || !craftsmanName ||!category || !picture || !whatsappNumber 
-          || !linkedONG || !units || !price) {
+          || !linkedONG || !price) {
         return res.status(400).json({ 
           error: 'Campos obrigatórios ausentes. Verifique e tente novamente.' 
         });
       }
+
+      // Converte a imagem base64 para Buffer
+      const pictureBuffer = Buffer.from(picture, 'base64');
+      // Converte "avalible" em boolean
+      const booleanAvalible = (avalible === 'true' || avalible === true);
 
       // Criar o produto no banco usando o Model Product
       const newProduct = await Product.create({
         productName,
         craftsmanName,
         category,
-        picture,
+        picture: pictureBuffer,
         whatsappNumber,
         linkedONG,
-        units,
+        avalible: booleanAvalible,
         price,
-        description
+        description,
+        size
       });
 
       return res.status(201).json(newProduct);
@@ -157,29 +164,58 @@ removeProduct: async (req, res) => {
  */
 updateProduct: async (req, res) => {
   try {
-    // Pega o ID da URL (exemplo: /products/5)
+    // 1. Pega o ID do produto na rota
     const { id } = req.params;
-
-    // Verifica se o ID foi enviado
     if (!id) {
       return res.status(400).json({ error: 'O ID do produto é obrigatório.' });
     }
 
-    // Busca o produto pelo ID
+    // 2. Busca o produto no banco
     const product = await Product.findByPk(id);
     if (!product) {
       return res.status(404).json({ error: 'Produto não encontrado.' });
     }
 
-    // Atualiza o produto com os campos enviados no corpo da requisição
-    // Aqui usamos o método update do Sequelize, que atualiza somente os campos enviados.
-    const updatedProduct = await product.update(req.body);
+    // 3. Preparar objeto com os campos que serão atualizados
+    //    Clonamos o req.body para manipular com mais segurança
+    const updatedFields = { ...req.body };
 
-    // Retorna o produto atualizado
+    // 3.1. Converter disponivel (string) em boolean
+    //      Se o front mandar "disponivel": "true" ou "false", convertemos:
+    if (updatedFields.avalible !== undefined) {
+      updatedFields.avalible = (
+        updatedFields.avalible === 'true' || 
+        updatedFields.avalible === true
+      );
+    }
+
+    // 3.2. Converter picture (base64) em buffer (BLOB)
+    //      Se o front enviar `picture` como string base64
+    if (updatedFields.picture) {
+      const base64Image = updatedFields.picture;
+      const bufferImage = Buffer.from(base64Image, 'base64');
+      updatedFields.picture = bufferImage;
+    }
+
+    // 3.3. Exemplo: se tiver "size" (ENUM 'P','M','G'), 
+    //      você pode validar, se quiser:
+    if (updatedFields.size) {
+      const validsizes = ['P', 'M', 'G'];
+      if (!validsizes.includes(updatedFields.size)) {
+        return res.status(400).json({
+          error: `Tamanho inválido. Valores permitidos: ${validsizes.join(', ')}.`
+        });
+      }
+    }
+
+    // 4. Atualiza somente os campos que vieram
+    const updatedProduct = await product.update(updatedFields);
+
     return res.status(200).json(updatedProduct);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 },
+
 
 };
