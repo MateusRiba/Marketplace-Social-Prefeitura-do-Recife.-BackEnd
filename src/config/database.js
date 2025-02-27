@@ -24,6 +24,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   dialect: process.env.DB_DIALECT
 });
 
+
 // Teste de conexão
 sequelize
   .authenticate()
