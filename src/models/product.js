@@ -28,7 +28,11 @@ const Product = sequelize.define('Product', {
     allowNull: false,
 
   },
-
+  // Category: Categoria do produto.
+  category:{
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   // Picture: URL ou caminho da imagem do produto
   picture: {
     type: DataTypes.STRING, //OBS: Não está decidido se será.blob ou as imagens vão ser guardadas como LINKS

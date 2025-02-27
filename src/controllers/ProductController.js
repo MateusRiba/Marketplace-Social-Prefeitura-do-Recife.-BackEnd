@@ -19,6 +19,7 @@ module.exports = {
       const { 
         productName,
         craftsmanName,
+        category,
         picture,
         whatsappNumber,
         linkedONG,
@@ -28,7 +29,7 @@ module.exports = {
       } = req.body;
 
       // Aqui é a validação de campos obrigatorios, caso algum não seja, basta retirar um desse
-      if (!productName || !craftsmanName || !picture || !whatsappNumber 
+      if (!productName || !craftsmanName ||!category || !picture || !whatsappNumber 
           || !linkedONG || !units || !price) {
         return res.status(400).json({ 
           error: 'Campos obrigatórios ausentes. Verifique e tente novamente.' 
@@ -39,6 +40,7 @@ module.exports = {
       const newProduct = await Product.create({
         productName,
         craftsmanName,
+        category,
         picture,
         whatsappNumber,
         linkedONG,
