@@ -5,6 +5,7 @@
 
 const Product = require('../models/product');
 const { Op } = require('sequelize');
+const validCategories = ['Utensílios', 'Decoração', 'Vestimentas'];
 
 module.exports = {
   /**
@@ -97,6 +98,31 @@ searchProductById: async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 },
+
+  // Buscar produtos por categoria
+  getProductsByCategory: async (req, res) => {
+    const { category } = req.params;
+
+    // Validação: Verifica se a categoria é válida
+    if (!validCategories.includes(category)) {
+      return res.status(400).json({ message: 'Categoria inválida. Escolha entre: Utensílios, Decoração ou Vestimentas'})
+    }
+
+    try {
+      const products = await Product.findAll({
+        where: { category }
+      });
+
+      if (products.length === 0) {
+        return res.status(404).json({ message: 'Nenhum produto encontrado para esta categoria.' });
+      }
+
+      return res.status(200).json(products);
+    } catch (error) {
+      console.error('Erro ao buscar produtos por categoria:', error);
+      return res.status(500).json({ error: 'Erro interno do servidor.' });
+    }
+  },
 
 /**
  * Remove um produto pelo ID
