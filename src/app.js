@@ -38,10 +38,17 @@ app.get('/', (req, res) => {
   res.send('Servidor rodando!');
 });
 
+//Autenticação do usuário
 const authRoutes = require("./routes/auth");
 app.use("/auth", authRoutes);
 
+//Ativação dos cookies
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
+//Rota para o fi
+const userRoutes = require("./routes/users");
+app.use("/users", userRoutes);
 
 
 // iniciar o servidor
