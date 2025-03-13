@@ -14,7 +14,7 @@ const app = express(); //Inicialização do server
 // Importa nossa conexão com o banco e models
 const sequelize = require('./config/database');
 require('./models/product');   // Carregando modelo de Produto
-require('./models/Favorite'); // Carregando modelo de Favorito 
+require('./models/favorite'); // Carregando modelo de Favorito 
 
 // Sincroniza com o banco (cria tabelas se não existirem)
 sequelize.sync({ force: true })
