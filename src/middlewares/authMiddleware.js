@@ -6,7 +6,7 @@ const verifyToken = async (req, res, next) => {
         const token = req.headers.authorization?.split(" ")[1];
 
         if (!token) {
-            return res.status(401).json({ error: "Acesso negado" });
+            return res.status(401).json({ error: "Token não fornecido" }); //Alterado nos Testes Unitarios
         }
 
         // Verifica se o token está na blacklist
