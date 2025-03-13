@@ -4,8 +4,12 @@
  ************************************************************/
 
 const express = require('express');
-const { sessionMiddleware } = require("./middlewares/sessionMiddleware");
+const { sessionMiddleware, setUserSession } = require("./middlewares/sessionMiddleware");
 const app = express(); //Inicialização do server
+
+
+
+
 
 // Importa nossa conexão com o banco e models
 const sequelize = require('./config/database');
@@ -26,7 +30,7 @@ app.use(express.json());
 
 // session middlewares
 app.use(sessionMiddleware);
-
+app.use(setUserSession);
 
 // Importa e usa as rotas
 const productRoutes = require('./routes/products');
