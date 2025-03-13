@@ -131,6 +131,28 @@ searchProductById: async (req, res) => {
     }
   },
 
+// Buscar produtos pelo preço máximo
+getProductsByPrice: async (req, res) => {
+  try {
+    const { maxPrice } = req.params; 
+    if (!maxPrice || isNaN(maxPrice)) {
+      return res.status(400).json({ error: 'O preço máximo deve ser um número válido.' });
+    }
+
+    const products = await Product.findAll({
+      where: { price: { [Op.lte]: parseFloat(maxPrice) } }
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({ message: 'Nenhum produto encontrado abaixo desse preço.' });
+    }
+
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+},
+
 /**
  * Remove um produto pelo ID
  * - O front-end faz DELETE /products/:id

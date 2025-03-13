@@ -43,6 +43,13 @@ router.get('/:id', ProductController.searchProductById);
 router.get('/category/:category', ProductController.getProductsByCategory);
 
 /**
+ * GET /products/price/maxprice
+ * - Faz pesquisa de produtos pelo preço máximo
+ * - O Front envia um parametro ?name= e recebe a lista filtrada.
+ */
+router.get('/price/:maxPrice', ProductController.getProductsByPrice);
+
+/**
  * DELETE /products/:id
  * Remove um produto pelo seu ID
  * Apenas Admin
