@@ -40,7 +40,7 @@ router.get('/:id', ProductController.searchProductById);
  * - Faz pesquisa de produtos por id
  * - O Front envia um parametro ?name= e recebe a lista filtrada.
  */
-router.get('/:category/:category', ProductController.getProductsByCategory);
+router.get('/category/:category', ProductController.getProductsByCategory);
 
 /**
  * DELETE /products/:id

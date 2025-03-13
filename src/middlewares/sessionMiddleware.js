@@ -1,9 +1,6 @@
-// sessionMiddleware.js
 const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
 
-// Configuração básica de sessão em memória (não recomendada em produção).
-// Em produção, use Redis ou outro store persistente.
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET || 'minhaChaveDeSessao',
   resave: false,
@@ -12,14 +9,22 @@ const sessionMiddleware = session({
     checkPeriod: 86400000 // limpa dados de 1 em 1 dia
   }),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 1 // 1 hora, por exemplo
+    maxAge: 1000 * 60 * 60 * 1 // 1 hora
   }
 });
 
-req.session.user = {
-    id: userId,
-    role: 'user'
-  };
-  
+// Middleware para definir sessão corretamente
+const setUserSession = (req, res, next) => {
+  if (!req.session) {
+    return res.status(500).json({ error: "Erro na sessão" });
+  }
 
-module.exports = { sessionMiddleware };
+  req.session.user = req.session.user || {
+    id: "123",
+    role: "user"
+  };
+
+  next();
+};
+
+module.exports = { sessionMiddleware, setUserSession };
