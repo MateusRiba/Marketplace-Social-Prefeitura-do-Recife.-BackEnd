@@ -4,6 +4,7 @@
  ************************************************************/
 
 const express = require('express');
+const { sessionMiddleware } = require("./middlewares/sessionMiddleware");
 const app = express(); //Inicialização do server
 
 // Importa nossa conexão com o banco e models
@@ -22,6 +23,10 @@ sequelize.sync({ force: true })
 
 // Configura o Express para interpretar JSON do body
 app.use(express.json());
+
+// session middlewares
+app.use(sessionMiddleware);
+
 
 // Importa e usa as rotas
 const productRoutes = require('./routes/products');
