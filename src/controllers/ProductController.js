@@ -153,6 +153,30 @@ getProductsByPrice: async (req, res) => {
   }
 },
 
+// Buscar produtos pelo tamanho
+getProductsBySize: async (req, res) => {
+  try {
+    const { size } = req.params;
+    const validSizes = ['P', 'M', 'G'];
+
+    if (!validSizes.includes(size)) {
+      return res.status(400).json({ message: 'Tamanho inválido. Escolha entre: P, M ou G.' });
+    }
+
+    const products = await Product.findAll({
+      where: { size }
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({ message: 'Nenhum produto encontrado para este tamanho.' });
+    }
+
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+},
+
 /**
  * Remove um produto pelo ID
  * - O front-end faz DELETE /products/:id
