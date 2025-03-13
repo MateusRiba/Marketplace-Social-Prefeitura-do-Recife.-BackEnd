@@ -50,6 +50,13 @@ router.get('/category/:category', ProductController.getProductsByCategory);
 router.get('/price/:maxPrice', ProductController.getProductsByPrice);
 
 /**
+ * GET /products/size/size
+ * - Faz pesquisa de produtos pelo size 
+ * - O Front envia um parametro ?name= e recebe a lista filtrada.
+ */
+router.get('/size/:size', ProductController.getProductsBySize);
+
+/**
  * DELETE /products/:id
  * Remove um produto pelo seu ID
  * Apenas Admin
