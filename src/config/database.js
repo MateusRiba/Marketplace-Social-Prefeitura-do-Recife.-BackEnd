@@ -1,38 +1,29 @@
-/************************************************************
- * ARQUIVO: src/config/database.js
- * RESPONSABILIDADE: Configuração da conexão com o MySQL
- * BIBLIOTECAS: Sequelize (construído em cima de mysql2) --> Serve para ter uma conexão mais facil com SQL usando javascript (e não SQL puro)
- ************************************************************/
+require('dotenv').config({ path: __dirname + '/../../.env' }); // Força carregamento do .env
 
 const { Sequelize } = require('sequelize');
 
-//Não tenho certeza se isso é aqui...
-require('dotenv').config();
-console.log('DB_DIALECT:', process.env.DB_DIALECT);
+// Debug para verificar se o dotenv carregou corretamente
+console.log("✅ DB_DIALECT:", process.env.DB_DIALECT);
+console.log("✅ DB_PORT:", process.env.DB_PORT);
 
-/**
- * Aqui cria-se uma instância do Sequelize, que vai se conectar
- * ao banco de dados MySQL chamado 'marketplace_db'.
- * 
- * - database: marketplace_db (foi criado no terminal do SQL)
- * - username e password: [Redacted]
- * - host: 'localhost' (pois estou rodando localmente)
- * - dialect: 'mysql' (pois estou usando o MySQL)
- */
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, { //Nome do banco, usuario e senha do .env
-  host: process.env.DB_HOST,
-  dialect: process.env.DB_DIALECT
-});
+const sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS,
+    {
+        host: process.env.DB_HOST,
+        port: parseInt(process.env.DB_PORT, 10) || 3306,
+        dialect: process.env.DB_DIALECT || 'mysql',
+        logging: false
+    }
+);
 
-
-// Teste de conexão
-sequelize
-  .authenticate()
+sequelize.authenticate()
   .then(() => {
-    console.log('Conexão com o MySQL foi estabelecida');
+    console.log('✅ Conexão estabelecida com sucesso.');
   })
   .catch((error) => {
-    console.error('Não foi possível conectar ao MySQL:', error);
+    console.error('❌ Não foi possível conectar ao banco:', error);
   });
 
-module.exports = sequelize; // Exportar para usar em outros arquivos
+module.exports = sequelize;
