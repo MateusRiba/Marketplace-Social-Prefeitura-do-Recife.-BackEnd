@@ -35,7 +35,7 @@ const Product = sequelize.define('Product', {
   },
   // Picture: .Blob long
   picture: {
-    type: DataTypes.BLOB('long'), 
+    type: DataTypes.BLOB, 
     allowNull: true
   },
 
