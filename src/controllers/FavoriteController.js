@@ -1,4 +1,4 @@
-const Favorite = require('../models/Favorite');
+const Favorite = require('../models/favorite');
 const { Op } = require('sequelize');
 
 module.exports = {
