@@ -2,7 +2,7 @@
   "name": "marketplace-social-prefeitura-do-recife.-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "directories": {
     "test": "tests"
   },
