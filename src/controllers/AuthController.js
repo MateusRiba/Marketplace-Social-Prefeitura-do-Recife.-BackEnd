@@ -18,10 +18,15 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { email: user.email, name: user.name, ngo: ngo ? ngo.name : null },
+            { 
+                email: user.email, 
+                name: user.name, 
+                role: "admin" 
+            },
             process.env.JWT_SECRET || "seuSegredoJWT",
             { expiresIn: "1h" }
         );
+        
 
       
         res.cookie("authToken", token, {
