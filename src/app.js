@@ -4,7 +4,10 @@
  ************************************************************/
 
 const express = require('express');
+const { sessionMiddleware, setUserSession } = require("./middlewares/sessionMiddleware");
 const app = express(); //Inicialização do server
+const cors = require("cors");
+
 
 // Importa nossa conexão com o banco e models
 const sequelize = require('./config/database');
@@ -22,6 +25,17 @@ sequelize.sync({ force: true })
 
 // Configura o Express para interpretar JSON do body
 app.use(express.json());
+
+// session middlewares
+app.use(sessionMiddleware);
+app.use(setUserSession);
+
+app.use(cors({
+  origin: "http://localhost:3001", // Permite o frontend acessar a API
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true // Permite cookies e autenticação com credenciais
+}));
 
 // Importa e usa as rotas
 const productRoutes = require('./routes/products');
@@ -56,5 +70,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
-
-
