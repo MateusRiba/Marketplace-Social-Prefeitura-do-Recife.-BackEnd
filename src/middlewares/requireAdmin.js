@@ -1,3 +1,4 @@
+//RequireAdmin
 // src/middlewares/requireAdmin.js
 function requireAdmin(req, res, next) {
   if (req.user && req.user.role === "admin") {

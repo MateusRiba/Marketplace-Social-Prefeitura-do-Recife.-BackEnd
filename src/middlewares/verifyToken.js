@@ -1,4 +1,4 @@
-// src/middlewares/verifyToken.js
+//VerifyToken
 const jwt = require("jsonwebtoken");
 const TokenBlacklist = require("../models/TokenBlacklist");
 
