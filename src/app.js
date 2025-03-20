@@ -33,7 +33,8 @@ app.use(setUserSession);
 app.use(cors({
   origin: "http://localhost:3001", // Permite o frontend acessar a API
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true // Permite cookies e autenticação com credenciais
 }));
 
 // Importa e usa as rotas
