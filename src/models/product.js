@@ -5,7 +5,7 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Favorite = require('./Favorite');
+const Favorite = require('./favorite');
 
 
 // Colunas do Banco de Dados:
@@ -35,7 +35,7 @@ const Product = sequelize.define('Product', {
   },
   // Picture: .Blob long
   picture: {
-    type: DataTypes.BLOB('long'), 
+    type: DataTypes.BLOB, 
     allowNull: true
   },
 
