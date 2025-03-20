@@ -72,11 +72,7 @@ module.exports = {
   getAllProducts: async (req, res) => {
     try {
       const products = await Product.findAll();
-      const formattedProducts = products.map(product => ({
-        ...product.toJSON(),
-        picture: product.picture ? `data:image/jpeg;base64,${product.picture.toString('base64')}` : null //formatacao para o front exibir a imagem
-      }));
-      return res.json(formattedProducts);
+      return res.json(products);
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
@@ -134,52 +130,6 @@ searchProductById: async (req, res) => {
       return res.status(500).json({ error: 'Erro interno do servidor.' });
     }
   },
-
-// Buscar produtos pelo preço máximo
-getProductsByPrice: async (req, res) => {
-  try {
-    const { maxPrice } = req.params; 
-    if (!maxPrice || isNaN(maxPrice)) {
-      return res.status(400).json({ error: 'O preço máximo deve ser um número válido.' });
-    }
-
-    const products = await Product.findAll({
-      where: { price: { [Op.lte]: parseFloat(maxPrice) } }
-    });
-
-    if (products.length === 0) {
-      return res.status(404).json({ message: 'Nenhum produto encontrado abaixo desse preço.' });
-    }
-
-    return res.status(200).json(products);
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-},
-
-// Buscar produtos pelo tamanho
-getProductsBySize: async (req, res) => {
-  try {
-    const { size } = req.params;
-    const validSizes = ['P', 'M', 'G'];
-
-    if (!validSizes.includes(size)) {
-      return res.status(400).json({ message: 'Tamanho inválido. Escolha entre: P, M ou G.' });
-    }
-
-    const products = await Product.findAll({
-      where: { size }
-    });
-
-    if (products.length === 0) {
-      return res.status(404).json({ message: 'Nenhum produto encontrado para este tamanho.' });
-    }
-
-    return res.status(200).json(products);
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-},
 
 /**
  * Remove um produto pelo ID
