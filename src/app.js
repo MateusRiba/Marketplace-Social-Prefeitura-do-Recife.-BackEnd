@@ -6,15 +6,13 @@
 const express = require('express');
 const { sessionMiddleware, setUserSession } = require("./middlewares/sessionMiddleware");
 const app = express(); //Inicialização do server
-
-
-
+const cors = require("cors");
 
 
 // Importa nossa conexão com o banco e models
 const sequelize = require('./config/database');
 require('./models/product');   // Carregando modelo de Produto
-require('./models/Favorite'); // Carregando modelo de Favorito 
+require('./models/favorite'); // Carregando modelo de Favorito 
 
 // Sincroniza com o banco (cria tabelas se não existirem)
 sequelize.sync({ force: true })
@@ -31,6 +29,12 @@ app.use(express.json());
 // session middlewares
 app.use(sessionMiddleware);
 app.use(setUserSession);
+
+app.use(cors({
+  origin: "http://localhost:3001", // Permite o frontend acessar a API
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 // Importa e usa as rotas
 const productRoutes = require('./routes/products');
