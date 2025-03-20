@@ -5,7 +5,7 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Favorite = require('./Favorite');
+const Favorite = require('./favorite');
 
 
 // Colunas do Banco de Dados:
