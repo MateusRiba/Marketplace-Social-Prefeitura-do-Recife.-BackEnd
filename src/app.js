@@ -7,7 +7,7 @@ const express = require('express');
 const { sessionMiddleware, setUserSession } = require("./middlewares/sessionMiddleware");
 const app = express(); //Inicialização do server
 const cors = require("cors");
-
+//imports
 
 // Importa nossa conexão com o banco e models
 const sequelize = require('./config/database');
