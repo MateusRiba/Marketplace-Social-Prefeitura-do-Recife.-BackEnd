@@ -29,6 +29,12 @@ router.post('/', verifyToken, requireAdmin, ProductController.createProduct);
 router.get('/', ProductController.getAllProducts);
 
 /**
+ * GET /products/search
+ * - Busca produtos pelo nome (parcial e case-insensitive).
+ */
+router.get('/search', ProductController.searchProductsByName);
+
+/**
  * GET /products/id
  * - Faz pesquisa de produtos por id
  * - O Front envia um parametro ?name= e recebe a lista filtrada.

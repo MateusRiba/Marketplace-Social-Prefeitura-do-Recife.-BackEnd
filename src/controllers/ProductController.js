@@ -208,6 +208,36 @@ removeProduct: async (req, res) => {
 },
 
 /**
+ * Busca produtos pelo nome (ou parte do nome)
+ * - O front-end faz GET /products/search?name=algo
+ */
+searchProductsByName: async (req, res) => {
+  try {
+    const { name } = req.query;
+
+    if (!name) {
+      return res.status(400).json({ error: 'O nome para a busca é obrigatório.' });
+    }
+
+    const products = await Product.findAll({
+      where: {
+        productName: {
+          [Op.iLike]: `%${name}%`, // Busca parcial e case-insensitive
+        },
+      },
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({ message: 'Nenhum produto encontrado com esse nome.' });
+    }
+
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+},
+
+/**
  * Atualiza um produto pelo ID
  * - O front-end faz PUT /products/:id
  * - O body da requisição contém os campos que devem ser atualizados
