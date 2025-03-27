@@ -72,12 +72,15 @@ module.exports = {
   getAllProducts: async (req, res) => {
     try {
       const products = await Product.findAll();
-      return res.json(products);
+      const formattedProducts = products.map(product => ({
+        ...product.toJSON(),
+        picture: product.picture ? `data:image/jpeg;base64,${product.picture.toString('base64')}` : null //formatacao para o front exibir a imagem
+      }));
+      return res.json(formattedProducts);
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
   },
-
   /**
    * Faz uma busca de produtos pelo nome do produto (productName)
    * - O front-end faz GET /products/search?productName=algo
