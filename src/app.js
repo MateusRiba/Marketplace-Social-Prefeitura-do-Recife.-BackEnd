@@ -37,6 +37,9 @@ app.use(cors({
   credentials: true // Permite cookies e autenticação com credenciais
 }));
 
+app.use(express.json({limit: "50mb"}));
+app.use(express.urlencoded({ limit: "50mb", extended: true })); //aumentando tamanho max das requisicoes json
+
 // Importa e usa as rotas
 const productRoutes = require('./routes/products');
 // Todas as rotas definidas em productRoutes vão ter como prefixo "/products"

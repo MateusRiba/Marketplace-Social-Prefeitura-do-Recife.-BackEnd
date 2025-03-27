@@ -23,6 +23,12 @@ router.post('/', ProductController.createProduct);
 router.get('/', ProductController.getAllProducts);
 
 /**
+ * GET /products/search
+ * - Busca produtos pelo nome (parcial e case-insensitive).
+ */
+router.get('/search', ProductController.searchProductsByName);
+
+/**
  * GET /products/id
  * - Faz pesquisa de produtos por id
  * - O Front envia um parametro ?name= e recebe a lista filtrada.
@@ -40,7 +46,9 @@ router.get('/:category/:category', ProductController.getProductsByCategory);
  * DELETE /products/:id
  * Remove um produto pelo seu ID
  */
-router.delete('/:id', ProductController.removeProduct);
+
+router.delete('/:id', requireAdmin, ProductController.removeProduct);
+
 
 
 // Atualização de produto(PUT /praducts/:id)
