@@ -31,7 +31,7 @@ app.use(sessionMiddleware);
 app.use(setUserSession);
 
 app.use(cors({
-  origin: "*", // Permite o frontend acessar a API
+  origin: "http://localhost:3008/", // Permite o frontend acessar a API
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true // Permite cookies e autenticação com credenciais
@@ -69,7 +69,7 @@ app.use("/users", userRoutes);
 
 
 // iniciar o servidor
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3018;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
