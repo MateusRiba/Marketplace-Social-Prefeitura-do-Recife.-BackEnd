@@ -1,10 +1,14 @@
-const Favorite = require('../models/Favorite');
+const Favorite = require('../models/favorite');
 const { Op } = require('sequelize');
 
 module.exports = {
 
 createFavorite: async(req, res) =>{
     const {userIdentifier, productId} = req.body;
+    
+    if (!req.user) { //Alterado nos testes unitarios
+      return res.status(401).json({ error: 'Usuário não autenticado' });
+    }
     try{
         const[favorite, created] = await Favorite.findOrCreate({
             where: {userIdentifier, productId}
