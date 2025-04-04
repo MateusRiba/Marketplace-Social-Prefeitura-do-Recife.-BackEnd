@@ -67,7 +67,7 @@ router.get('/size/:size', ProductController.getProductsBySize);
  * Remove um produto pelo seu ID
  * Apenas Admin
  */
-router.delete('/:id', requireAdmin, ProductController.removeProduct);
+router.delete('/:id', ProductController.removeProduct);
 
 
 /* Atualização de produto(PUT /praducts/:id)
