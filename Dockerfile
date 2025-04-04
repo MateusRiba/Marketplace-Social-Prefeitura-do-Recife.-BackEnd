@@ -14,7 +14,7 @@ RUN npm install --omit=dev
 COPY . .
 
 # Expõe a porta usada pelo app
-EXPOSE 3000
+EXPOSE 3008
 
 # Define variáveis de ambiente
 ENV NODE_ENV=production
