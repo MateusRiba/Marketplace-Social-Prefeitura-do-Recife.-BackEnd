@@ -1,4 +1,5 @@
-require('dotenv').config({ path: __dirname + '/../../.env' }); // Força carregamento do .env
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 const { Sequelize } = require('sequelize');
 
@@ -14,7 +15,10 @@ const sequelize = new Sequelize(
         host: process.env.DB_HOST,
         port: parseInt(process.env.DB_PORT, 10) || 5432,
         dialect: process.env.DB_DIALECT || 'postgres',
-        logging: false
+        logging: false,
+        define: {
+          schema: 'produtos_sociais'  
+        }
     }
 );
 
