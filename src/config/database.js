@@ -1,7 +1,6 @@
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
-
 const { Sequelize } = require('sequelize');
 
 // Debug para verificar se o dotenv carregou corretamente
@@ -18,7 +17,7 @@ const sequelize = new Sequelize(
         dialect: process.env.DB_DIALECT || 'postgres',
         logging: false,
         define: {
-          schema: 'produtos_sociais'  // 👈 aqui define o schema padrão
+          schema: 'produtos_sociais'  
         }
     }
 );
