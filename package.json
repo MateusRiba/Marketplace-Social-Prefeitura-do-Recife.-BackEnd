@@ -29,9 +29,11 @@
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "jsonwebtoken": "^9.0.2",
+    "marketplace-social-prefeitura-do-recife.-backend": "file:",
     "memorystore": "^1.6.7",
     "mysql2": "^3.13.0",
     "pg": "^8.14.0",
-    "sequelize": "^6.37.5"
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
   }
 }

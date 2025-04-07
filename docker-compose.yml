@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: Y2YcQiQd07uDNXBN
       POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -26,7 +26,7 @@ services:
       DB_PASS: Y2YcQiQd07uDNXBN
       DB_NAME: postgres
     ports:
-      - "3000:3000"
+      - "3018:3018"
 
 volumes:
   postgres_data:
